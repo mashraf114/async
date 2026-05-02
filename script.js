@@ -10,9 +10,9 @@ const countriesContainer = document.querySelector('.countries');
 // https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}
 
 ///////////////////////////////////////
-const renderCountry = function (data) {
+const renderCountry = function (data, className = '') {
   const html = `
-  <article class="country">
+  <article class="country ${className}">
   <img class="country__img" src="${data.flag}" />
   <div class="country__data">
     <h3 class="country__name">${data.name}</h3>
@@ -30,14 +30,30 @@ const renderCountry = function (data) {
 };
 
 const getCountryAndNeighbour = function (country) {
+  // AJAX call country 1
   const request = new XMLHttpRequest();
   request.open('GET', `https://restcountries.com/v2/name/${country}`);
   request.send();
   request.addEventListener('load', function () {
     const [data] = JSON.parse(this.responseText);
     renderCountry(data);
+
+    // AJAX neighbour country 2
+    const [neighbour] = data.borders;
+    if (!neighbour) return;
+
+    // AJAX call neighbour 2
+    const request2 = new XMLHttpRequest();
+    request2.open('GET', `https://restcountries.com/v2/alpha/${neighbour}`);
+    request2.send();
+
+    request2.addEventListener('load', function () {
+      const data2 = JSON.parse(this.responseText);
+      console.log(data2);
+      renderCountry(data2, 'neighbour');
+    });
   });
 };
-getCountryAndNeighbour('iran');
-getCountryAndNeighbour('egypt');
-getCountryAndNeighbour('afghanistan');
+getCountryAndNeighbour('libya');
+// getCountryAndNeighbour('egypt');
+// getCountryAndNeighbour('afghanistan');
