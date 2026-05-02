@@ -10,15 +10,8 @@ const countriesContainer = document.querySelector('.countries');
 // https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}
 
 ///////////////////////////////////////
-const getCountryData = function (country) {
-  const request = new XMLHttpRequest();
-  request.open('GET', `https://restcountries.com/v2/name/${country}`);
-  request.send();
-  request.addEventListener('load', function () {
-    const [data] = JSON.parse(this.responseText);
-    console.log(data);
-
-    const html = `
+const renderCountry = function (data) {
+  const html = `
   <article class="country">
   <img class="country__img" src="${data.flag}" />
   <div class="country__data">
@@ -32,10 +25,19 @@ const getCountryData = function (country) {
   </div>
 </article>
   `;
-    countriesContainer.insertAdjacentHTML('beforeend', html);
-    countriesContainer.style.opacity = 1;
+  countriesContainer.insertAdjacentHTML('beforeend', html);
+  countriesContainer.style.opacity = 1;
+};
+
+const getCountryAndNeighbour = function (country) {
+  const request = new XMLHttpRequest();
+  request.open('GET', `https://restcountries.com/v2/name/${country}`);
+  request.send();
+  request.addEventListener('load', function () {
+    const [data] = JSON.parse(this.responseText);
+    renderCountry(data);
   });
 };
-getCountryData('iran');
-getCountryData('lebanon');
-getCountryData('egypt');
+getCountryAndNeighbour('iran');
+getCountryAndNeighbour('egypt');
+getCountryAndNeighbour('afghanistan');
