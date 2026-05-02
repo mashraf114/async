@@ -10,6 +10,7 @@ const countriesContainer = document.querySelector('.countries');
 // https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}
 
 ///////////////////////////////////////
+
 const renderCountry = function (data, className = '') {
   const html = `
   <article class="country ${className}">
@@ -28,7 +29,7 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
-
+/*
 const getCountryAndNeighbour = function (country) {
   // AJAX call country 1
   const request = new XMLHttpRequest();
@@ -54,6 +55,19 @@ const getCountryAndNeighbour = function (country) {
     });
   });
 };
-getCountryAndNeighbour('libya');
-// getCountryAndNeighbour('egypt');
-// getCountryAndNeighbour('afghanistan');
+getCountryAndNeighbour('belgium');
+*/
+// const request = fetch('https://restcountries.com/v2/name/portugal');
+// console.log(request);
+
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      renderCountry(data[0]);
+    });
+};
+getCountryData('egypt');
