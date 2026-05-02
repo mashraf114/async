@@ -4,7 +4,7 @@ const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
 // NEW COUNTRIES API URL (use instead of the URL shown in videos):
-// https://restcountries.com/v2/name/portugal
+// https://restcount ries.com/v2/name/portugal
 
 // NEW REVERSE GEOCODING API URL (use instead of the URL shown in videos):
 // https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}
@@ -12,7 +12,7 @@ const countriesContainer = document.querySelector('.countries');
 ///////////////////////////////////////
 const getCountryData = function (country) {
   const request = new XMLHttpRequest();
-  request.open('GET', `1https://restcountries.com/v2/name/${country}`);
+  request.open('GET', `https://restcountries.com/v2/name/${country}`);
   request.send();
   request.addEventListener('load', function () {
     const [data] = JSON.parse(this.responseText);
@@ -36,6 +36,6 @@ const getCountryData = function (country) {
     countriesContainer.style.opacity = 1;
   });
 };
-getCountryData('portugal');
-getCountryData('ksa');
+getCountryData('iran');
+getCountryData('lebanon');
 getCountryData('egypt');
