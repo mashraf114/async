@@ -18,7 +18,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #261616;
+  /* background-color: #261616; */
 }
 
 .container {
