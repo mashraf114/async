@@ -306,22 +306,30 @@ const getPosition = function () {
 };
 
 const whereAmI = async function () {
-  // Geolocation
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lng } = pos.coords;
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+    data;
+    // Reverse GeoCoding
+    const resGeo = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+    );
+    if (!resGeo.ok) throw new Error('Problem getting location!');
+    const dataGeo = await resGeo.json();
 
-  // Reverse GeoCoding
-  const resGeo = await fetch(
-    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
-  );
-  const dataGeo = await resGeo.json();
+    // country data
+    const res = await fetch(
+      `https://restcountries.com/v2/name/${dataGeo.countryCode}`
+    );
 
-  // country data
-  const res = await fetch(
-    `https://restcountries.com/v2/name/${dataGeo.countryCode}`
-  );
-  const data = await res.json();
-  renderCountry(data[0]);
+    if (!res.ok) throw new Error('Problem getting country!');
+    const data = await res.json();
+    renderCountry(data[0]);
+  } catch (err) {
+    renderError('something went wrong!!!');
+    console.error(err);
+  }
 };
 
 whereAmI();
