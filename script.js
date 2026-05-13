@@ -210,7 +210,6 @@ wait(2).then(() => {
 Promise.resolve('abc').then(x => console.log(x));
 Promise.reject('abc').catch(x => console.error(x));
 
-*/
 
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
@@ -297,3 +296,33 @@ createImage('img/img-1.jpg')
       });
   })
   .catch(err => console.error(err));
+
+*/
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function () {
+  // Geolocation
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lng } = pos.coords;
+
+  // Reverse GeoCoding
+  const resGeo = await fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+  );
+  const dataGeo = await resGeo.json();
+
+  // country data
+  const res = await fetch(
+    `https://restcountries.com/v2/name/${dataGeo.countryCode}`
+  );
+  const data = await res.json();
+  renderCountry(data[0]);
+};
+
+whereAmI();
+console.log('FIRST');
