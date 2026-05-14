@@ -9,6 +9,7 @@ const renderError = function (msg) {
 };
 
 const renderCountry = function (data, className = '') {
+  console.log('data', data);
   const html = `
   <article class="country ${className}">
   <img class="country__img" src="${data.flag}" />
@@ -299,6 +300,54 @@ createImage('img/img-1.jpg')
 
 */
 
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// const whereAmI = async function () {
+//   try {
+//     // Geolocation
+//     const pos = await getPosition();
+//     const { latitude: lat, longitude: lng } = pos.coords;
+//     // Reverse GeoCoding
+//     const resGeo = await fetch(
+//       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+//     );
+//     if (!resGeo.ok) throw new Error('Problem getting location!');
+//     const dataGeo = await resGeo.json();
+
+//     // country data
+//     const res = await fetch(
+//       `https://restcountries.com/v2/name/${dataGeo.countryCode}`
+//     );
+
+//     if (!res.ok) throw new Error('Problem getting country!');
+//     const data = await res.json();
+//     renderCountry(data[0]);
+//   } catch (err) {
+//     renderError('something went wrong!!!');
+//     console.error(err);
+//     // rejecting promise returned from async func
+//     throw err;
+//   }
+// };
+
+// console.log(`1: Will get location`);
+
+// (async function () {
+//   try {
+//     const city = await whereAmI();
+//     console.log(`2: ${city}`);
+//   } catch (err) {
+//     console.error(`2: ${err.message}!!!`);
+//   }
+//   console.log('3: Finished getting location');
+// })();
+/*
+///////////////////////////////////////
+// Returning Values from Async Functions
 const getPosition = function () {
   return new Promise(function (resolve, reject) {
     navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -310,11 +359,68 @@ const whereAmI = async function () {
     // Geolocation
     const pos = await getPosition();
     const { latitude: lat, longitude: lng } = pos.coords;
-    data;
+
+    // Reverse geocoding
+    const resGeo = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+    );
+    if (!resGeo.ok) throw new Error('Problem getting location data');
+    const dataGeo = await resGeo.json();
+
+    // Country data
+    const res = await fetch(
+      `https://restcountries.com/v2/name/${dataGeo.country}`
+    );
+    if (!resGeo.ok) throw new Error('Problem getting country');
+    const data = await res.json();
+    renderCountry(data[0]);
+
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+  } catch (err) {
+    console.error(`${err} 💥`);
+    renderError(`💥 ${err.message}`);
+
+    // Reject promise returned from async function
+    throw err;
+  }
+};
+
+console.log('1: Will get location');
+// const city = whereAmI();
+// console.log(city);
+
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message} 💥`))
+//   .finally(() => console.log('3: Finished getting location'));
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.error(`2: ${err.message} 💥`);
+  }
+  console.log('3: Finished getting location');
+})();
+*/
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function () {
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
     // Reverse GeoCoding
     const resGeo = await fetch(
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
     );
+
     if (!resGeo.ok) throw new Error('Problem getting location!');
     const dataGeo = await resGeo.json();
 
@@ -325,12 +431,29 @@ const whereAmI = async function () {
 
     if (!res.ok) throw new Error('Problem getting country!');
     const data = await res.json();
+
     renderCountry(data[0]);
   } catch (err) {
     renderError('something went wrong!!!');
     console.error(err);
+    throw err;
   }
 };
+console.log('1: Will get location');
+// const city = whereAmI();
+// console.log(city);
 
-whereAmI();
-console.log('FIRST');
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message} 💥`))
+//   .finally(() => console.log('3: Finished getting location'));
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.error(`2: ${err.message} 💥`);
+  }
+  console.log('3: Finished getting location');
+})();
