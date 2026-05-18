@@ -5,9 +5,6 @@ the browser's Geolocation API, performs reverse geocoding to identify
 the city and country, and dynamically renders country information using
 external APIs.
 
-This project was built as part of **The Complete JavaScript Course** by
-Jonas Schmedtmann.
-
 ---
 
 ## 🚀 Live Demo
@@ -85,7 +82,7 @@ https://restcountries.com/
 ## ▶️ Run Locally
 
 ```bash
-git clone https://github.com/your-username/where-am-i.git
+git clone https://github.com/mashraf114/async.git
 ```
 
 Open `index.html` in your browser.
@@ -111,7 +108,7 @@ Open `index.html` in your browser.
 
 ## 👨‍💻 Author
 
-Mohamed Shaban\
+Mohamed Ashraf\
 https://github.com/mashraf114
 
 ---
